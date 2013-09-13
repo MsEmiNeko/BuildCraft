@@ -32,6 +32,7 @@ import buildcraft.core.blueprints.BptContext;
 import buildcraft.core.network.PacketUpdate;
 import buildcraft.core.network.TileNetworkData;
 import buildcraft.core.proxy.CoreProxy;
+import buildcraft.core.utils.SurroundingInventory; // Use in Builder Functional
 import buildcraft.core.utils.Utils;
 import java.io.IOException;
 import java.util.Collection;
@@ -289,8 +290,8 @@ public class TileBuilder extends TileBuildCraft implements IBuilderInventory, IP
 
 			box.createLasers(worldObj, LaserKind.Stripes);
 
-
-//			builderRobot.scheduleContruction(bluePrintBuilder.getNextBlock(worldObj, this), bluePrintBuilder.getContext());
+			// Return normal text
+			builderRobot.scheduleContruction(bluePrintBuilder.getNextBlock(worldObj, new SurroundingInventory(worldObj, xCoord, yCoord, zCoord)), bluePrintBuilder.getContext()); 
 		}
 	}
 
@@ -327,7 +328,7 @@ public class TileBuilder extends TileBuildCraft implements IBuilderInventory, IP
 				}
 
 				if (bluePrintBuilder != null && builderRobot != null) {
-//					builderRobot.markEndOfBlueprint(bluePrintBuilder);
+					builderRobot.markEndOfBlueprint(bluePrintBuilder);
 				}
 
 				bluePrintBuilder = currentPathIterator.next();
@@ -336,10 +337,8 @@ public class TileBuilder extends TileBuildCraft implements IBuilderInventory, IP
 					box.deleteLasers();
 					box.reset();
 
-					/*
 					 box.initialize(bluePrintBuilder);
 					 box.createLasers(worldObj, LaserKind.Stripes);
-					 */
 				}
 
 				if (builderRobot != null) {
@@ -356,7 +355,7 @@ public class TileBuilder extends TileBuildCraft implements IBuilderInventory, IP
 			} else {
 				if (bluePrintBuilder != null && bluePrintBuilder.done) {
 					if (builderRobot != null) {
-//						builderRobot.markEndOfBlueprint(bluePrintBuilder);
+						builderRobot.markEndOfBlueprint(bluePrintBuilder);
 					}
 
 					done = true;
